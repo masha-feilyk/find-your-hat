@@ -11,6 +11,8 @@ class Field {
     }
 
     print() {
+        console.log('Use keyboard to navigate through the field:\n l - left\n r - right\n u - up\n d - down\n');
+
         let str = '';
         for (let i = 0; i < this.field.length; i++) {
             for (let j = 0; j < this.field[i].length; j++) {
@@ -54,87 +56,51 @@ class Field {
     }
 }
 
-
-console.log('Use keyboard to navigate through the field:\n l - left\n r - right\n u - up\n d - down\n');
-
 const myField = new Field(Field.generateField(10, 5, 25));
 myField.print();
 
-let findHat = false;
-let outBoundaries = false;
-let fallInHole = false;
+const congratText = 'Congrats, you found your hat!';
+const outBoundariesText = 'You are out of boundaries!';
+const fallInHallText = 'Sorry, you felt into the hole :(';
+
+let findHat = false,
+    outBoundaries = false,
+    fallInHole = false;
 let i = 0,
     j = 0;
 
 while (!outBoundaries && !findHat && !fallInHole) {
     const direction = prompt('Which way?');
 
-    const congratText = 'Congrats, you found your hat!';
-    const outBoundariesText = 'You are out of boundaries!';
-    const fallInHallText = 'Sorry, you felt into the hole :(';
-
-    if (direction === 'r') {
-        if (j + 1 === myField.field[0].length) {
-            console.log(outBoundariesText);
-            outBoundaries = true;
-        } else if (myField.field[i][j + 1] === hole) {
-            console.log(fallInHallText);
-            fallInHole = true;
-        } else if (myField.field[i][j + 1] === hat) {
-            console.log(congratText);
-            findHat = true;
-        } else {
-            myField.field[i][j + 1] = pathCharacter;
-            myField.print();
+    switch (direction) {
+        case 'r':
             j += 1;
-        }
-
-    } else if (direction === 'l') {
-        if (j - 1 < 0) {
-            console.log(outBoundariesText);
-            outBoundaries = true;
-        } else if (myField.field[i][j - 1] === hole) {
-            console.log(fallInHallText);
-            fallInHole = true;
-        } else if (myField.field[i][j - 1] === hat) {
-            console.log(congratText);
-            findHat = true;
-        } else {
-            myField.field[i][j - 1] = pathCharacter;
-            myField.print();
+            break;
+        case 'l':
             j -= 1;
-        }
-
-    } else if (direction === 'u') {
-        if (i - 1 < 0) {
-            console.log(outBoundariesText);
-            outBoundaries = true;
-        } else if (myField.field[i - 1][j] === hole) {
-            console.log(fallInHallText);
-            fallInHole = true;
-        } else if (myField.field[i - 1][j] === hat) {
-            console.log(congratText);
-            findHat = true;
-        } else {
-            myField.field[i - 1][j] = pathCharacter;
-            myField.print();
+            break;
+        case 'u':
             i -= 1;
-        }
-
-    } else if (direction === 'd') {
-        if (i + 1 === myField.field.length) {
-            console.log(outBoundariesText);
-            outBoundaries = true;
-        } else if (myField.field[i + 1][j] === hole) {
-            console.log(fallInHallText);
-            fallInHole = true;
-        } else if (myField.field[i + 1][j] === hat) {
-            console.log(congratText);
-            findHat = true;
-        } else {
-            myField.field[i + 1][j] = pathCharacter;
-            myField.print();
+            break;
+        case 'd':
             i += 1;
-        }
+            break;
+        default:
+            console.log('Use these commands to navigate through the field:\n l - left\n r - right\n u - up\n d - down\n');
+    }
+
+    if (j === myField.field[0].length || i === myField.field.length || j < 0 || i < 0) {
+        console.log(outBoundariesText);
+        outBoundaries = true;
+    } else if (myField.field[i][j] === hole) {
+        console.log(fallInHallText);
+        fallInHole = true;
+    } else if (myField.field[i][j] === hat) {
+        console.log(congratText);
+        findHat = true;
+    } else {
+        myField.field[i][j] = pathCharacter;
+        console.clear();
+        myField.print();
     }
 }
