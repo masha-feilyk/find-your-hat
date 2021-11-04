@@ -1,4 +1,4 @@
-# find-your-hat
+# Find-your-hat
 
 "Find your hat" - interactive terminal game.You have lost your hat in a field full of holes. Navigate back to it without falling down one of the holes or stepping outside of the field.
 
